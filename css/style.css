@@ -13,17 +13,106 @@
 	--primary-300: #de442a;
 	--accent-100: #5a5bfa;
 	--accent-200: #4e42f0;
-	--text-100: #242424;
-	--text-200: #454545;
+	--text-100: #353535;
+	--text-200: #5a5a5a;
 	--bg-100: #f0f5fe;
 	--bg-200: #e6ebf4;
 	--bg-300: #bdc2cb;
+	--primary-gradient: linear-gradient(
+		90deg,
+		#de442a -10.62%,
+		rgba(222, 68, 42, 0.65) 122.12%
+	);
 }
 
 body {
 	font-family: "Montserrat", sans-serif;
 	font-size: 18px;
 	font-weight: 400;
-	background: var(--bg-100);
+	background: var(--bg-200);
 	color: var(--text-200);
+	min-height: 100vh;
+	width: 100vw;
+	overflow-x: hidden;
+}
+
+main {
+	width: 100%;
+	min-height: 100vh;
+	display: grid;
+	grid-template-columns: minmax(max-content, 250px) 1fr;
+}
+
+.sidebar {
+	max-width: 70vw;
+	padding: 0px 35px;
+	background: var(--bg-100);
+}
+
+.logo-container {
+	padding-top: 20px;
+}
+
+.logo-text {
+	font-weight: 900;
+	color: var(--text-100);
+}
+
+.menu {
+	padding: 10px 0px;
+	border-bottom: 1px solid #d1d1d1;
+}
+
+.menu-item-container {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	padding: 10px 0px;
+	font-size: 1em;
+}
+
+.menu-item-container img {
+	margin-right: 10px;
+}
+
+.menu-items {
+	list-style: none;
+}
+
+.menu-items:hover {
+	font-weight: 700;
+}
+
+.menu-items a {
+	color: inherit;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.projects-title {
+	font-size: 18px;
+	font-weight: 400;
+}
+
+.projects-title-container {
+	display: flex;
+	align-items: center;
+	font-size: 1.1em;
+	padding: 10px 0px;
+}
+
+.add-project-btn {
+	color: var(--bg-100);
+	background: var(--primary-gradient);
+	padding: 10px;
+	border-radius: 100%;
+	width: 20px;
+	height: 20px;
+	display: flex;
+	justify-content: center;
+	font-size: 23px;
+	font-weight: 700;
+	align-items: center;
+	margin-left: 10px;
+	cursor: pointer;
 }
