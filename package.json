@@ -1,0 +1,26 @@
+{
+	"name": "to-do-app",
+	"version": "1.0.0",
+	"description": "To Do App for The Odin Project curriculum",
+	"main": "index.js",
+	"scripts": {
+		"build": "webpack",
+		"watch": "webpack --config webpack.config.js --watch",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/canizalesJd/to-do-app.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/canizalesJd/to-do-app/issues"
+	},
+	"homepage": "https://github.com/canizalesJd/to-do-app#readme",
+	"devDependencies": {
+		"webpack": "^5.89.0",
+		"webpack-cli": "^5.1.4"
+	}
+}
