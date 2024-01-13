@@ -55,6 +55,7 @@ main {
 
 .logo-text {
 	font-weight: 900;
+	font-size: 1.8em;
 	color: var(--text-100);
 }
 
@@ -73,6 +74,8 @@ main {
 
 .menu-item-container img {
 	margin-right: 10px;
+	-webkit-user-drag: none;
+	user-select: none;
 }
 
 .menu-items {
@@ -90,7 +93,7 @@ main {
 }
 
 .projects-title {
-	font-size: 18px;
+	font-size: 1em;
 	font-weight: 400;
 }
 
@@ -102,6 +105,7 @@ main {
 }
 
 .add-project-btn {
+	user-select: none;
 	color: var(--bg-100);
 	background: var(--primary-gradient);
 	padding: 10px;
