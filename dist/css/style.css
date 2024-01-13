@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;600;700;900&display=swap");
 
 * {
 	padding: 0;
@@ -13,15 +13,21 @@
 	--primary-300: #de442a;
 	--accent-100: #5a5bfa;
 	--accent-200: #4e42f0;
-	--text-100: #353535;
-	--text-200: #5a5a5a;
+	--text-100: #2d2d2d;
+	--text-200: #505050;
 	--bg-100: #f0f5fe;
 	--bg-200: #e6ebf4;
 	--bg-300: #bdc2cb;
+	--white: #f8f8f8;
 	--primary-gradient: linear-gradient(
 		90deg,
 		#de442a -10.62%,
 		rgba(222, 68, 42, 0.65) 122.12%
+	);
+	--primary-gradient-200: linear-gradient(
+		90deg,
+		#dc2504 -10.62%,
+		rgba(195, 31, 2, 0.65) 122.12%
 	);
 }
 
@@ -43,6 +49,7 @@ main {
 	grid-template-columns: minmax(max-content, 250px) 1fr;
 }
 
+/* Sidebar */
 .sidebar {
 	max-width: 70vw;
 	padding: 0px 35px;
@@ -83,7 +90,7 @@ main {
 }
 
 .menu-items:hover {
-	font-weight: 700;
+	font-weight: 600;
 }
 
 .menu-items a {
@@ -115,8 +122,209 @@ main {
 	display: flex;
 	justify-content: center;
 	font-size: 23px;
-	font-weight: 700;
+	font-weight: 600;
 	align-items: center;
 	margin-left: 10px;
+	cursor: pointer;
+}
+
+.add-project-btn:hover {
+	transition: 300ms;
+	background: var(--primary-gradient-200);
+}
+
+/* Content */
+
+.content {
+	display: flex;
+	max-width: 600px;
+	width: 90%;
+	padding: 30px 0px;
+	margin: auto;
+	height: 100%;
+	flex-direction: column;
+}
+
+.content-title-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.content-title {
+	font-size: 1.4em;
+	font-weight: 600;
+}
+
+.add-task-btn {
+	cursor: pointer;
+	border: none;
+	outline: none;
+	color: var(--bg-100);
+	font-family: inherit;
+	font-weight: 600;
+	background: var(--primary-gradient);
+	border-radius: 10px;
+	font-size: 0.85em;
+	padding: 10px 40px;
+}
+
+.add-task-btn:hover {
+	transition: 300ms;
+	background: linear-gradient(
+		90deg,
+		#dc2504 -10.62%,
+		rgba(195, 31, 2, 0.65) 122.12%
+	);
+}
+
+.tasks-container {
+	padding: 20px 0px;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.task-card {
+	background: var(--bg-100);
+	padding: 20px;
+	margin: 20px 0px;
+	border-radius: 10px;
+	color: var(--text-200);
+}
+
+.task-modal {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0, 0, 0, 0.477);
+}
+
+.task-form {
+	position: relative;
+	border-radius: 10px;
+	padding: 30px 40px;
+	background: var(--white);
+	width: 400px;
+	min-height: 400px;
+	max-width: 90vw;
+}
+
+.task-form-title {
+	color: var(--text-100);
+	font-size: 1.3em;
+	font-weight: 900;
+	margin-bottom: 20px;
+}
+
+.input-container {
+	padding: 5px 0px;
+	display: flex;
+	flex-direction: column;
+}
+
+label,
+task-priority-title {
+	font-size: 1.1em;
+	font-weight: 700;
+	color: var(--text-200);
+	margin: 5px 0px;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+	border: 2px solid var(--bg-300);
+	color: inherit;
+	border-radius: 5px;
+	font-family: inherit;
+	font-size: 1em;
+	padding: 8px;
+	margin: 5px 0px;
+}
+
+input:focus,
+select:focus {
+	outline: none;
+}
+
+.task-priority-title {
+	font-size: 1.1em;
+	font-weight: 700;
+	color: var(--text-200);
+	margin: 5px 0px;
+}
+
+.modal-controls {
+	padding: 20px 0px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.modal-controls > button {
+	border: none;
+	font-family: inherit;
+	font-weight: 700;
+	font-size: 0.85em;
+	padding: 10px 30px;
+	border-radius: 10px;
+	cursor: pointer;
+	margin-left: 10px;
+}
+
+.modal-controls .cancel-btn {
+	background: transparent;
+	color: var(--accent-200);
+	border: 2px solid var(--accent-200);
+}
+
+.cancel-btn:hover {
+	background: linear-gradient(
+		90deg,
+		var(--accent-100) -10.62%,
+		var(--accent-200) 122.12%
+	);
+	color: var(--white);
+	padding: 12px 32px;
+	border: none;
+}
+
+.modal-controls .add-btn {
+	padding: 12px 30px;
+	background: transparent;
+	color: var(--white);
+	background: var(--primary-gradient);
+}
+
+.add-btn:hover {
+	background: var(--primary-gradient-200);
+}
+
+#task-priority {
+	text-transform: capitalize;
+}
+
+.close-modal {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+	background: var(--primary-300);
+	color: var(--white);
+	font-weight: 700;
+	position: absolute;
+	font-size: 13px;
+	top: 20px;
+	right: 20px;
+	height: 20px;
+	width: 20px;
+	border-radius: 50%;
 	cursor: pointer;
 }

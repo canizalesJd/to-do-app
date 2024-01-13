@@ -33,13 +33,52 @@
 					<nav>
 						<div class="projects-title-container">
 							<h3 class="projects-title">Projects</h3>
-							<span class="add-project-btn" id="add-project">+</span>
+							<div class="add-project-btn" id="add-project ">+</div>
 						</div>
 						<ul class="projects"></ul>
 					</nav>
 				</header>
 			</section>
-			<section class="content"></section>
+			<section class="content">
+				<div class="content-title-container">
+					<h3 class="content-title">Home</h3>
+					<button class="add-task-btn">Add task</button>
+				</div>
+				<div class="tasks-container">
+					<div class="task-card text-center">
+						<p>No tasks to be displayed...</p>
+					</div>
+				</div>
+				<div class="task-modal">
+					<form action="#" class="task-form">
+						<h3 class="task-form-title">Add Task</h3>
+						<div class="close-modal">X</div>
+						<div class="input-container">
+							<label for="task-title">Title</label>
+							<input
+								type="text"
+								placeholder="Take the trash out"
+								id="task-title" />
+						</div>
+						<div class="input-container">
+							<label for="task-priority">Priority</label>
+							<select id="task-priority">
+								<option value="low">low</option>
+								<option value="normal">normal</option>
+								<option value="urgent">urgent</option>
+							</select>
+						</div>
+						<div class="input-container">
+							<label for="task-title">Date</label>
+							<input type="date" id="task-date" />
+						</div>
+						<div class="modal-controls">
+							<button class="cancel-btn">Cancel</button>
+							<button class="add-btn">Add</button>
+						</div>
+					</form>
+				</div>
+			</section>
 		</main>
 		<script src="main.js"></script>
 	</body>
