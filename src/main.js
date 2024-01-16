@@ -7,6 +7,10 @@ const taskTitle = document.getElementById("task-title");
 const taskPriority = document.getElementById("task-priority");
 const taskDate = document.getElementById("task-date");
 
+const addProjectBtn = document.querySelector(".add-project-btn");
+const cancelProjectBtn = document.querySelector(".cancel-project-btn");
+const projectForm = document.querySelector(".new-project-container");
+
 addTaskBtn.addEventListener("click", () => {
 	taskModal.style.display = "flex";
 });
@@ -25,6 +29,15 @@ window.addEventListener("click", (event) => {
 	if (event.target == taskModal) {
 		resetModal();
 	}
+});
+
+// Show and hide new project form
+addProjectBtn.addEventListener("click", () => {
+	projectForm.style.display = "flex";
+});
+
+cancelProjectBtn.addEventListener("click", () => {
+	projectForm.style.display = "none";
 });
 
 const resetModal = () => {
