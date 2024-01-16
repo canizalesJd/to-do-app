@@ -316,15 +316,15 @@ select:focus {
 	justify-content: center;
 	align-items: center;
 	font-weight: bold;
-	background: var(--primary-300);
+	background: var(--primary-200);
 	color: var(--white);
 	font-weight: 700;
 	position: absolute;
-	font-size: 13px;
-	top: 20px;
-	right: 20px;
-	height: 20px;
-	width: 20px;
+	font-size: 10px;
+	top: 15px;
+	right: 15px;
+	height: 17px;
+	width: 17px;
 	border-radius: 50%;
 	cursor: pointer;
 }
