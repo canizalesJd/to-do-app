@@ -52,7 +52,7 @@ main {
 /* Sidebar */
 .sidebar {
 	max-width: 70vw;
-	padding: 0px 35px;
+	padding: 0px 20px;
 	background: var(--bg-100);
 }
 
@@ -126,6 +126,55 @@ main {
 	align-items: center;
 	margin-left: 10px;
 	cursor: pointer;
+}
+
+.cancel-project-btn {
+	color: var(--accent-200);
+	border: 2px solid var(--accent-200);
+	padding: 6px 16px;
+	border-radius: 8px;
+	margin-right: 8px;
+}
+
+.cancel-project-btn:hover {
+	transition: 200ms;
+	background: var(--accent-200);
+	color: var(--bg-100);
+}
+
+.new-project-btn {
+	background: var(--primary-gradient);
+	padding: 8px 16px;
+	border-radius: 8px;
+	color: var(--bg-100);
+}
+
+.new-project-btn:hover {
+	transition: 200ms;
+	background: var(--primary-gradient-200);
+}
+
+.project-form {
+	display: flex;
+	flex-direction: column;
+}
+
+.new-project-container {
+	display: none;
+	max-width: 100%;
+}
+
+.form-controls {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 5px 0px;
+}
+
+.small-input {
+	padding: 4px !important;
+	font-size: 0.85em !important;
+	max-width: 100%;
+	margin: auto;
 }
 
 .add-project-btn:hover {
@@ -227,6 +276,16 @@ main {
 	padding: 5px 0px;
 	display: flex;
 	flex-direction: column;
+}
+
+button {
+	font-family: inherit;
+	font-weight: 700;
+	background: none;
+	outline: none;
+	border: none;
+	box-shadow: none;
+	cursor: pointer;
 }
 
 label,
