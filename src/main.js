@@ -13,11 +13,17 @@ const addProjectBtn = document.querySelector(".add-project-btn");
 const cancelProjectBtn = document.querySelector(".cancel-project-btn");
 const projectFormContainer = document.querySelector(".new-project-container");
 
-const projects = [];
+let projects;
+const getProjects = () => {
+	localStorage.getItem("projects")
+		? (projects = JSON.parse(localStorage.getItem("projects")))
+		: (projects = []);
+};
+getProjects();
+
 const updateProjects = (projects) => {
 	localStorage.setItem("projects", JSON.stringify(projects));
 };
-updateProjects(projects);
 
 const listProjects = (projects) => {
 	console.log(projects);
