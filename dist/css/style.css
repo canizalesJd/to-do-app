@@ -144,7 +144,7 @@ main {
 
 .new-project-btn {
 	background: var(--primary-gradient);
-	padding: 8px 16px;
+	padding: 8px 24px;
 	border-radius: 8px;
 	color: var(--bg-100);
 }
@@ -386,4 +386,15 @@ select:focus {
 	width: 17px;
 	border-radius: 50%;
 	cursor: pointer;
+}
+
+.projects li {
+	font-size: 0.92em;
+	list-style: none;
+	padding: 6px 5px;
+	cursor: pointer;
+}
+
+.projects li:hover {
+	font-weight: 600;
 }

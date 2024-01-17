@@ -1,3 +1,5 @@
+import Project from "./project.js";
+
 const addTaskBtn = document.querySelector(".add-task-btn");
 const taskModal = document.querySelector(".task-modal");
 const closeModalBtn = document.querySelector(".close-modal");
@@ -9,7 +11,25 @@ const taskDate = document.getElementById("task-date");
 
 const addProjectBtn = document.querySelector(".add-project-btn");
 const cancelProjectBtn = document.querySelector(".cancel-project-btn");
-const projectForm = document.querySelector(".new-project-container");
+const projectFormContainer = document.querySelector(".new-project-container");
+
+const projects = [];
+const updateProjects = (projects) => {
+	localStorage.setItem("projects", JSON.stringify(projects));
+};
+updateProjects(projects);
+
+const listProjects = (projects) => {
+	console.log(projects);
+	const projectList = document.querySelector(".projects");
+	projectList.innerHTML = "";
+	projects.forEach((project) => {
+		console.log(project);
+		projectList.innerHTML += `<li>${project.name}</li>`;
+	});
+};
+
+listProjects(projects);
 
 addTaskBtn.addEventListener("click", () => {
 	taskModal.style.display = "flex";
@@ -33,11 +53,7 @@ window.addEventListener("click", (event) => {
 
 // Show and hide new project form
 addProjectBtn.addEventListener("click", () => {
-	projectForm.style.display = "flex";
-});
-
-cancelProjectBtn.addEventListener("click", () => {
-	projectForm.style.display = "none";
+	projectFormContainer.style.display = "flex";
 });
 
 const resetModal = () => {
@@ -48,3 +64,31 @@ const resetModal = () => {
 	// Close modal
 	taskModal.style.display = "none";
 };
+
+// New project creation form
+const projectName = document.getElementById("project-name");
+const projectForm = document.querySelector(".project-form");
+
+const resetProjectForm = () => {
+	projectFormContainer.style.display = "none";
+	projectName.value = "";
+};
+
+const createProject = (projectName) => {
+	const project = new Project(projectName.value);
+	projects.push(project);
+	updateProjects(projects);
+	listProjects(projects);
+};
+
+projectForm.addEventListener("submit", (event) => {
+	event.preventDefault();
+	if (projectName.value === "") {
+		return;
+	}
+	createProject(projectName);
+});
+
+cancelProjectBtn.addEventListener("click", () => {
+	resetProjectForm();
+});
