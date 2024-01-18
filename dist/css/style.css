@@ -92,7 +92,6 @@ main {
 .menu-item-container:hover {
 	background: var(--bg-200);
 	border-radius: 8px;
-	font-weight: 600;
 	cursor: pointer;
 }
 
@@ -399,7 +398,16 @@ select:focus {
 }
 
 .projects li:hover {
-	font-weight: 600;
 	background: var(--bg-200);
 	border-radius: 8px;
+}
+
+.project-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.project-container img {
+	margin-left: 5px;
 }

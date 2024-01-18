@@ -26,12 +26,14 @@ const updateProjects = (projects) => {
 };
 
 const listProjects = (projects) => {
-	console.log(projects);
 	const projectList = document.querySelector(".projects");
 	projectList.innerHTML = "";
-	projects.forEach((project) => {
-		console.log(project);
-		projectList.innerHTML += `<li>${project.name}</li>`;
+	projects.forEach((project, index) => {
+		projectList.innerHTML += `<li>
+		<div class="project-container">${project.name}
+		<img src="images/close-icon.svg" alt="Options icon" data-project="${index})">
+		</div>
+		</li>`;
 	});
 };
 
@@ -93,8 +95,23 @@ projectForm.addEventListener("submit", (event) => {
 		return;
 	}
 	createProject(projectName);
+	resetProjectForm();
 });
 
 cancelProjectBtn.addEventListener("click", () => {
 	resetProjectForm();
 });
+
+const projectList = document.querySelector(".projects");
+projectList.addEventListener("click", (e) => {
+	if (e.target.dataset.project) {
+		deleteProject(e.target.dataset.project);
+	}
+});
+
+// Function to delete the project
+const deleteProject = function (index) {
+	projects.splice(index, 1);
+	updateProjects(projects);
+	listProjects(projects);
+};
