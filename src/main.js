@@ -119,7 +119,7 @@ const listTasks = (project) => {
 	const tasksContainer = document.querySelector(".tasks-container");
 	if (project.tasks.length > 0) {
 		tasksContainer.innerHTML = "";
-		project.tasks.forEach((t) => {
+		project.tasks.forEach((t, index) => {
 			const task = JSON.parse(t);
 			// Create the main container div
 			const taskCard = document.createElement("div");
@@ -143,16 +143,18 @@ const listTasks = (project) => {
 			taskControls.classList.add("task-controls");
 			// Create the complete task button
 			const completeTaskBtn = document.createElement("img");
-			completeTaskBtn.src = "images/complete-icon.svg";
+			completeTaskBtn.src = task.completed
+				? "images/completed-icon.svg"
+				: "images/complete-icon.svg";
 			completeTaskBtn.alt = "Complete icon";
-			completeTaskBtn.dataset.task = task.title;
+
 			completeTaskBtn.classList.add("complete-task-btn");
 			taskControls.appendChild(completeTaskBtn);
 			// Create the task options button
 			const taskOptionsBtn = document.createElement("img");
 			taskOptionsBtn.src = "images/dots-icon.svg";
 			taskOptionsBtn.alt = "Options icon";
-			taskOptionsBtn.dataset.task = task.title;
+
 			taskOptionsBtn.classList.add("task-options-btn");
 			taskControls.appendChild(taskOptionsBtn);
 			taskCard.appendChild(taskControls);
@@ -171,6 +173,18 @@ const listTasks = (project) => {
 			taskOptions.appendChild(deleteOption);
 			taskCard.appendChild(taskOptions);
 			tasksContainer.appendChild(taskCard);
+			// Adding functionality to the options button
+			taskOptionsBtn.addEventListener("click", () => {
+				taskOptions.classList.toggle("show");
+			});
+			// Adding functionality to the complete task button
+			completeTaskBtn.addEventListener("click", () => {
+				task.completed = !task.completed;
+				project.tasks[index] = JSON.stringify(task);
+				updateProjects(projects);
+				listProjects(projects);
+				listTasks(project);
+			});
 		});
 	} else {
 		tasksContainer.innerHTML = `

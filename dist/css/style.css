@@ -473,6 +473,10 @@ select:focus {
 	width: 120px;
 }
 
+.show {
+	display: block;
+}
+
 .task-options p {
 	text-align: center;
 	cursor: pointer;
