@@ -149,6 +149,7 @@ const listTasks = (project) => {
 				? "images/completed-icon.svg"
 				: "images/complete-icon.svg";
 			completeTaskBtn.alt = "Complete icon";
+			taskCard.classList.add(task.completed ? "completed" : null);
 
 			completeTaskBtn.classList.add("complete-task-btn");
 			taskControls.appendChild(completeTaskBtn);

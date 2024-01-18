@@ -261,6 +261,16 @@ main {
 	color: var(--text-200);
 }
 
+.task-card.completed {
+	text-decoration-line: line-through;
+	text-decoration-color: var(--text-200);
+	text-decoration-thickness: 2.5px;
+}
+
+.task-card p {
+	margin-bottom: 5px;
+}
+
 .task-modal {
 	display: none;
 	justify-content: center;
