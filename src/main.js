@@ -16,6 +16,8 @@ const projectFormContainer = document.querySelector(".new-project-container");
 
 let projects;
 let project;
+let editTask = false;
+let editTaskIndex;
 
 const getProjects = () => {
 	localStorage.getItem("projects")
@@ -185,6 +187,23 @@ const listTasks = (project) => {
 				listProjects(projects);
 				listTasks(project);
 			});
+			// Adding functionality to options menu
+			taskOptions.addEventListener("click", (e) => {
+				if (e.target.dataset.option === "edit") {
+					taskModal.style.display = "flex";
+					taskTitle.value = task.title;
+					taskPriority.value = task.priority;
+					taskDate.value = task.date;
+					editTask = true;
+					editTaskIndex = index;
+				}
+				if (e.target.dataset.option === "delete") {
+					project.tasks.splice(index, 1);
+					updateProjects(projects);
+					listProjects(projects);
+					listTasks(project);
+				}
+			});
 		});
 	} else {
 		tasksContainer.innerHTML = `
@@ -222,7 +241,16 @@ taskForm.onsubmit = (event) => {
 	if (taskTitle.value === "") {
 		return;
 	}
-	createTask(project, taskTitle.value, taskPriority.value, taskDate.value);
+	if (!editTask) {
+		createTask(taskTitle.value, taskPriority.value, taskDate.value);
+	} else {
+		const index = editTaskIndex;
+		const task = JSON.parse(project.tasks[index]);
+		task.title = taskTitle.value;
+		task.priority = taskPriority.value;
+		task.date = taskDate.value;
+		project.tasks[index] = JSON.stringify(task);
+	}
 	updateProjects(projects);
 	listProjects(projects);
 	resetModal();
