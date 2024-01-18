@@ -76,6 +76,7 @@ const resetModal = () => {
 	taskDate.value = "";
 	// Close modal
 	taskModal.style.display = "none";
+	editTask = false;
 };
 
 // New project creation form
@@ -231,7 +232,7 @@ const deleteProject = function (index) {
 // Task creation form
 const taskForm = document.querySelector(".task-form");
 
-const createTask = (project, title, priority, date, completed = false) => {
+const createTask = (title, priority, date, completed = false) => {
 	date === "" ? (date = "No Due Date") : date;
 	const task = new Task(title, priority, date, completed);
 	project.tasks.push(JSON.stringify(task));
