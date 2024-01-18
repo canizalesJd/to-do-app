@@ -116,7 +116,6 @@ projectList.addEventListener("click", (e) => {
 });
 
 const listTasks = (project) => {
-	console.log(project);
 	const tasksContainer = document.querySelector(".tasks-container");
 	if (project.tasks.length > 0) {
 		tasksContainer.innerHTML = "";
@@ -124,9 +123,21 @@ const listTasks = (project) => {
 			const task = JSON.parse(t);
 			tasksContainer.innerHTML += `
 			<div class="task-card">
-				<p class="task-title">${task.title}</p>
+				<p class="task-title">${task.title} <span class="priority ${task.priority}"></p>
 				<p class="task-project">${project.name}</p>
-				<p class="task-date">Due: ${task.date}</p>
+				<p class="task-date">Due: ${task.date || "No Due Date"}</p>
+				<div class="task-controls">
+					<img src="images/complete-icon.svg" alt="Complete icon" data-task="${
+						task.title
+					}" class="complete-task-btn">
+					<img src="images/dots-icon.svg" alt="Options icon" data-task="${
+						task.title
+					}" class="task-options-btn">
+				</div>
+				<div class="task-options">
+					<p data-option="edit">Edit</p>
+					<p data-option="delete">Delete</p>
+				</div>
 			</div>`;
 		});
 	} else {
@@ -154,12 +165,9 @@ const deleteProject = function (index) {
 // Task creation form
 const taskForm = document.querySelector(".task-form");
 
-const createTask = (project, title, priority, date = "No due date") => {
-	const task = {
-		title: title,
-		priority: priority,
-		date: date,
-	};
+const createTask = (project, title, priority, date, completed = false) => {
+	date === "" ? (date = "No Due Date") : date;
+	const task = new Task(title, priority, date, completed);
 	project.tasks.push(JSON.stringify(task));
 };
 
@@ -169,7 +177,6 @@ taskForm.onsubmit = (event) => {
 		return;
 	}
 	createTask(project, taskTitle.value, taskPriority.value, taskDate.value);
-	console.log(projects);
 	updateProjects(projects);
 	listProjects(projects);
 	resetModal();

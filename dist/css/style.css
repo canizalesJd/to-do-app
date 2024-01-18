@@ -29,6 +29,21 @@
 		#dc2504 -10.62%,
 		rgba(195, 31, 2, 0.65) 122.12%
 	);
+	--urgent-gradient: linear-gradient(
+		90deg,
+		#e42e0f -10.62%,
+		rgba(222, 68, 42, 0.25) 122.12%
+	);
+	--normal-gradient: linear-gradient(
+		90deg,
+		#e49c0f -10.62%,
+		rgba(228, 156, 15, 0.25) 122.12%
+	);
+	--low-gradient: linear-gradient(
+		90deg,
+		#2ade5c -10.62%,
+		rgba(42, 222, 92, 0.25) 122.12%
+	);
 }
 
 body {
@@ -238,6 +253,7 @@ main {
 }
 
 .task-card {
+	position: relative;
 	background: var(--bg-100);
 	padding: 20px;
 	margin: 20px 0px;
@@ -410,4 +426,86 @@ select:focus {
 
 .project-container img {
 	margin-left: 5px;
+}
+
+.task-title {
+	display: flex;
+	align-items: center;
+	font-size: 1.2em;
+	color: var(--text-100);
+	font-weight: 600;
+	text-transform: capitalize;
+}
+
+.task-project {
+	font-size: 0.9em;
+}
+
+.task-controls {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
+	padding: 10px 20px;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+.task-controls img {
+	-webkit-user-drag: none;
+	cursor: pointer;
+}
+
+.task-options {
+	display: none;
+	position: absolute;
+	bottom: -10px;
+	right: 55px;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	border-radius: 5px;
+	background: var(--bg-100);
+	padding: 5px;
+	box-shadow: 2px 5px 10px rgb(0, 0, 0, 0.2);
+	width: 120px;
+}
+
+.task-options p {
+	text-align: center;
+	cursor: pointer;
+	padding: 8px 0px;
+	border-radius: 5px;
+	width: 100%;
+	font-size: 0.95em;
+}
+
+.task-options p:hover {
+	background: var(--bg-200);
+}
+
+.priority.urgent {
+	background: var(--urgent-gradient);
+	width: 20px;
+	height: 20px;
+	margin: 0px 10px;
+	border-radius: 50%;
+}
+
+.priority.normal {
+	background: var(--normal-gradient);
+	width: 20px;
+	height: 20px;
+	margin: 0px 10px;
+	border-radius: 50%;
+}
+
+.priority.low {
+	background: var(--low-gradient);
+	width: 20px;
+	height: 20px;
+	margin: 0px 10px;
+	border-radius: 50%;
 }
