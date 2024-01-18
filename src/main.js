@@ -121,24 +121,56 @@ const listTasks = (project) => {
 		tasksContainer.innerHTML = "";
 		project.tasks.forEach((t) => {
 			const task = JSON.parse(t);
-			tasksContainer.innerHTML += `
-			<div class="task-card">
-				<p class="task-title">${task.title} <span class="priority ${task.priority}"></p>
-				<p class="task-project">${project.name}</p>
-				<p class="task-date">Due: ${task.date || "No Due Date"}</p>
-				<div class="task-controls">
-					<img src="images/complete-icon.svg" alt="Complete icon" data-task="${
-						task.title
-					}" class="complete-task-btn">
-					<img src="images/dots-icon.svg" alt="Options icon" data-task="${
-						task.title
-					}" class="task-options-btn">
-				</div>
-				<div class="task-options">
-					<p data-option="edit">Edit</p>
-					<p data-option="delete">Delete</p>
-				</div>
-			</div>`;
+			// Create the main container div
+			const taskCard = document.createElement("div");
+			taskCard.classList.add("task-card");
+			// Create the task title paragraph
+			const titleParagraph = document.createElement("p");
+			titleParagraph.classList.add("task-title");
+			titleParagraph.innerHTML = `${task.title} <span class="priority ${task.priority}"></span>`;
+			taskCard.appendChild(titleParagraph);
+			const projectParagraph = document.createElement("p");
+			projectParagraph.classList.add("task-project");
+			projectParagraph.textContent = project.name;
+			taskCard.appendChild(projectParagraph);
+			// Create the task date paragraph
+			const dateParagraph = document.createElement("p");
+			dateParagraph.classList.add("task-date");
+			dateParagraph.innerHTML = `Due: ${task.date || "No Due Date"}`;
+			taskCard.appendChild(dateParagraph);
+			// Create the task controls div
+			const taskControls = document.createElement("div");
+			taskControls.classList.add("task-controls");
+			// Create the complete task button
+			const completeTaskBtn = document.createElement("img");
+			completeTaskBtn.src = "images/complete-icon.svg";
+			completeTaskBtn.alt = "Complete icon";
+			completeTaskBtn.dataset.task = task.title;
+			completeTaskBtn.classList.add("complete-task-btn");
+			taskControls.appendChild(completeTaskBtn);
+			// Create the task options button
+			const taskOptionsBtn = document.createElement("img");
+			taskOptionsBtn.src = "images/dots-icon.svg";
+			taskOptionsBtn.alt = "Options icon";
+			taskOptionsBtn.dataset.task = task.title;
+			taskOptionsBtn.classList.add("task-options-btn");
+			taskControls.appendChild(taskOptionsBtn);
+			taskCard.appendChild(taskControls);
+			// Create the task options div
+			const taskOptions = document.createElement("div");
+			taskOptions.classList.add("task-options");
+			// Create the "Edit" option paragraph
+			const editOption = document.createElement("p");
+			editOption.dataset.option = "edit";
+			editOption.textContent = "Edit";
+			taskOptions.appendChild(editOption);
+			// Create the "Delete" option paragraph
+			const deleteOption = document.createElement("p");
+			deleteOption.dataset.option = "delete";
+			deleteOption.textContent = "Delete";
+			taskOptions.appendChild(deleteOption);
+			taskCard.appendChild(taskOptions);
+			tasksContainer.appendChild(taskCard);
 		});
 	} else {
 		tasksContainer.innerHTML = `
