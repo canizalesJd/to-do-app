@@ -1,4 +1,5 @@
 import Project from "./project.js";
+import Task from "./task.js";
 
 const addTaskBtn = document.querySelector(".add-task-btn");
 const taskModal = document.querySelector(".task-modal");
@@ -14,11 +15,14 @@ const cancelProjectBtn = document.querySelector(".cancel-project-btn");
 const projectFormContainer = document.querySelector(".new-project-container");
 
 let projects;
+let project;
+
 const getProjects = () => {
 	localStorage.getItem("projects")
 		? (projects = JSON.parse(localStorage.getItem("projects")))
 		: (projects = []);
 };
+
 getProjects();
 
 const updateProjects = (projects) => {
@@ -29,10 +33,9 @@ const listProjects = (projects) => {
 	const projectList = document.querySelector(".projects");
 	projectList.innerHTML = "";
 	projects.forEach((project, index) => {
-		projectList.innerHTML += `<li>
-		<div class="project-container">${project.name}
+		projectList.innerHTML += `<li data-id="${index}" class="project-container">
+		${project.name}
 		<img src="images/close-icon.svg" alt="Options icon" data-project="${index})">
-		</div>
 		</li>`;
 	});
 };
@@ -107,11 +110,68 @@ projectList.addEventListener("click", (e) => {
 	if (e.target.dataset.project) {
 		deleteProject(e.target.dataset.project);
 	}
+	if (e.target.dataset.id) {
+		selectProject(e.target.dataset.id);
+	}
 });
+
+const listTasks = (project) => {
+	console.log(project);
+	const tasksContainer = document.querySelector(".tasks-container");
+	if (project.tasks.length > 0) {
+		tasksContainer.innerHTML = "";
+		project.tasks.forEach((t) => {
+			const task = JSON.parse(t);
+			tasksContainer.innerHTML += `
+			<div class="task-card">
+				<p class="task-title">${task.title}</p>
+				<p class="task-project">${project.name}</p>
+				<p class="task-date">Due: ${task.date}</p>
+			</div>`;
+		});
+	} else {
+		tasksContainer.innerHTML = `
+		<div class="task-card text-center">
+			<p>No tasks to be displayed...</p>
+		</div>`;
+	}
+};
+
+const selectProject = (index) => {
+	project = projects[index];
+	const contentTitle = document.querySelector(".content-title");
+	contentTitle.textContent = project.name;
+	listTasks(project);
+};
 
 // Function to delete the project
 const deleteProject = function (index) {
 	projects.splice(index, 1);
 	updateProjects(projects);
 	listProjects(projects);
+};
+
+// Task creation form
+const taskForm = document.querySelector(".task-form");
+
+const createTask = (project, title, priority, date = "No due date") => {
+	const task = {
+		title: title,
+		priority: priority,
+		date: date,
+	};
+	project.tasks.push(JSON.stringify(task));
+};
+
+taskForm.onsubmit = (event) => {
+	event.preventDefault();
+	if (taskTitle.value === "") {
+		return;
+	}
+	createTask(project, taskTitle.value, taskPriority.value, taskDate.value);
+	console.log(projects);
+	updateProjects(projects);
+	listProjects(projects);
+	resetModal();
+	listTasks(project);
 };

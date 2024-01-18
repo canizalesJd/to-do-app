@@ -1,6 +1,6 @@
 class Project {
-	constructor(projectName) {
-		this.name = projectName;
+	constructor(name) {
+		this.name = name;
 		this.tasks = [];
 	}
 	addTask(task) {
