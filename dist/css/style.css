@@ -483,6 +483,10 @@ select:focus {
 	width: 120px;
 }
 
+.hide {
+	display: none;
+}
+
 .show {
 	display: block;
 }

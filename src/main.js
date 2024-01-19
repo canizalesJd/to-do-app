@@ -14,6 +14,8 @@ const addProjectBtn = document.querySelector(".add-project-btn");
 const cancelProjectBtn = document.querySelector(".cancel-project-btn");
 const projectFormContainer = document.querySelector(".new-project-container");
 
+let contentTitle = document.querySelector(".content-title");
+
 let projects;
 let project;
 let editTask = false;
@@ -118,11 +120,12 @@ projectList.addEventListener("click", (e) => {
 	}
 });
 
-const listTasks = (project) => {
+const listTasks = (tasks) => {
+	console.log(tasks);
 	const tasksContainer = document.querySelector(".tasks-container");
-	if (project.tasks.length > 0) {
+	if (tasks.length > 0) {
 		tasksContainer.innerHTML = "";
-		project.tasks.forEach((t, index) => {
+		tasks.forEach((t, index) => {
 			const task = JSON.parse(t);
 			// Create the main container div
 			const taskCard = document.createElement("div");
@@ -134,7 +137,7 @@ const listTasks = (project) => {
 			taskCard.appendChild(titleParagraph);
 			const projectParagraph = document.createElement("p");
 			projectParagraph.classList.add("task-project");
-			projectParagraph.textContent = project.name;
+			projectParagraph.textContent = task.projectName;
 			taskCard.appendChild(projectParagraph);
 			// Create the task date paragraph
 			const dateParagraph = document.createElement("p");
@@ -184,10 +187,10 @@ const listTasks = (project) => {
 			// Adding functionality to the complete task button
 			completeTaskBtn.addEventListener("click", () => {
 				task.completed = !task.completed;
-				project.tasks[index] = JSON.stringify(task);
+				tasks[index] = JSON.stringify(task);
 				updateProjects(projects);
 				listProjects(projects);
-				listTasks(project);
+				listTasks(project.tasks);
 			});
 			// Adding functionality to options menu
 			taskOptions.addEventListener("click", (e) => {
@@ -217,9 +220,8 @@ const listTasks = (project) => {
 
 const selectProject = (index) => {
 	project = projects[index];
-	const contentTitle = document.querySelector(".content-title");
 	contentTitle.textContent = project.name;
-	listTasks(project);
+	listTasks(project.tasks);
 };
 
 // Function to delete the project
@@ -232,19 +234,26 @@ const deleteProject = function (index) {
 // Task creation form
 const taskForm = document.querySelector(".task-form");
 
-const createTask = (title, priority, date, completed = false) => {
+const createTask = (projectName, title, priority, date, completed = false) => {
+	projectName === "" ? (projectName = "No Project") : project.name;
 	date === "" ? (date = "No Due Date") : date;
-	const task = new Task(title, priority, date, completed);
+	const task = new Task(projectName, title, priority, date, completed);
 	project.tasks.push(JSON.stringify(task));
 };
 
 taskForm.onsubmit = (event) => {
+	console.log(project);
 	event.preventDefault();
 	if (taskTitle.value === "") {
 		return;
 	}
 	if (!editTask) {
-		createTask(taskTitle.value, taskPriority.value, taskDate.value);
+		createTask(
+			project.name,
+			taskTitle.value,
+			taskPriority.value,
+			taskDate.value
+		);
 	} else {
 		const index = editTaskIndex;
 		const task = JSON.parse(project.tasks[index]);
@@ -256,5 +265,19 @@ taskForm.onsubmit = (event) => {
 	updateProjects(projects);
 	listProjects(projects);
 	resetModal();
-	listTasks(project);
+	listTasks(project.tasks);
 };
+
+// Menu controls
+const menuHome = document.getElementById("menu-home");
+const menuToday = document.getElementById("menu-today");
+const menuWeek = document.getElementById("menu-week");
+
+menuHome.addEventListener("click", () => {
+	contentTitle.textContent = "Home";
+	let tasks = [];
+	projects.map((project) => {
+		tasks = [...tasks, ...project.tasks];
+		listTasks(tasks);
+	});
+});
