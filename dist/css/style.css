@@ -125,7 +125,7 @@ main {
 	display: flex;
 	align-items: center;
 	font-size: 1.1em;
-	padding: 10px 0px;
+	padding: 10px 20px;
 }
 
 .add-project-btn {
@@ -419,7 +419,7 @@ select:focus {
 .projects li {
 	font-size: 0.92em;
 	list-style: none;
-	padding: 8px 15px;
+	padding: 8px 20px;
 	cursor: pointer;
 }
 
