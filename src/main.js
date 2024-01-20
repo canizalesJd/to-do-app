@@ -167,6 +167,12 @@ const editTask = (taskId) => {
 	}
 };
 
+const deleteTask = (taskId) => {
+	tasks.splice(taskId, 1);
+	updateLocalStorage(tasks, "tasks");
+	project ? listTasks(filterProjectTasks(project.id)) : listTasks(tasks);
+};
+
 const listTasks = (tasks) => {
 	const tasksContainer = document.querySelector(".tasks-container");
 	if (tasks.length > 0) {
@@ -239,10 +245,7 @@ const listTasks = (tasks) => {
 					editTask(task.id);
 				}
 				if (e.target.dataset.option === "delete") {
-					project.tasks.splice(index, 1);
-					updateLocalStorage(projects, "projects");
-					listProjects(projects);
-					listTasks(project);
+					deleteTask(task.id);
 				}
 			});
 		});
@@ -322,9 +325,11 @@ const menuHome = document.getElementById("menu-home");
 const menuToday = document.getElementById("menu-today");
 const menuWeek = document.getElementById("menu-week");
 
-menuHome.addEventListener("click", () => {
+const selectMenuHome = () => {
 	project = null;
 	contentTitle.textContent = "Home";
-	// List all tasks
 	listTasks(tasks);
-});
+};
+
+menuHome.addEventListener("click", selectMenuHome);
+selectMenuHome();
