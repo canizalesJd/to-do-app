@@ -19,8 +19,8 @@ let contentTitle = document.querySelector(".content-title");
 let projects;
 let tasks;
 let project;
-let editTask = false;
-let editTaskIndex;
+let taskEdit = false;
+let taskIdToEdit;
 
 const getProjects = () => {
 	localStorage.getItem("projects")
@@ -84,7 +84,7 @@ const resetTaskModal = () => {
 	taskDate.value = "";
 	// Close modal
 	taskModal.style.display = "none";
-	editTask = false;
+	taskEdit = false;
 };
 
 // New project creation form
@@ -148,6 +148,23 @@ const filterProjectTasks = (projectId) => {
 		return taskProject === projectId;
 	});
 	return filteredTasks;
+};
+
+const findTask = (taskId) => {
+	return tasks.find((task) => task.id === taskId);
+};
+
+// Function to edit a task
+const editTask = (taskId) => {
+	const task = findTask(taskId);
+	if (task) {
+		taskTitle.value = task.title;
+		taskPriority.value = task.priority;
+		taskDate.value = task.date;
+		taskModal.style.display = "flex";
+		taskEdit = true;
+		taskIdToEdit = task.id;
+	}
 };
 
 const listTasks = (tasks) => {
@@ -219,12 +236,7 @@ const listTasks = (tasks) => {
 			// Adding functionality to options menu
 			taskOptions.addEventListener("click", (e) => {
 				if (e.target.dataset.option === "edit") {
-					taskModal.style.display = "flex";
-					taskTitle.value = task.title;
-					taskPriority.value = task.priority;
-					taskDate.value = task.date;
-					editTask = true;
-					editTaskIndex = index;
+					editTask(task.id);
 				}
 				if (e.target.dataset.option === "delete") {
 					project.tasks.splice(index, 1);
@@ -284,7 +296,7 @@ taskForm.onsubmit = (event) => {
 	if (taskTitle.value === "") {
 		return;
 	}
-	if (!editTask) {
+	if (!taskEdit) {
 		const taskId = generateRandomId();
 		createTask(
 			project.id,
@@ -295,16 +307,14 @@ taskForm.onsubmit = (event) => {
 			taskDate.value
 		);
 	} else {
-		const index = editTaskIndex;
-		const task = JSON.parse(project.tasks[index]);
+		const task = findTask(taskIdToEdit);
 		task.title = taskTitle.value;
 		task.priority = taskPriority.value;
 		task.date = taskDate.value;
-		project.tasks[index] = JSON.stringify(task);
 	}
 	resetTaskModal();
 	updateLocalStorage(tasks, "tasks");
-	listTasks(filterProjectTasks(project.id));
+	project ? listTasks(filterProjectTasks(project.id)) : listTasks(tasks);
 };
 
 // Menu controls
