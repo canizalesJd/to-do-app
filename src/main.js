@@ -103,9 +103,22 @@ const createProject = (projectId, projectName) => {
 	listProjects(projects);
 };
 
+const generateRandomId = () => {
+	return Math.random().toString(36).substring(2);
+};
+
+const markTaskCompleted = (taskId) => {
+	const task = tasks.find((task) => task.id === taskId);
+	if (task) {
+		task.completed = !task.completed;
+		updateLocalStorage(tasks, "tasks");
+		project ? listTasks(filterProjectTasks(project.id)) : listTasks(tasks);
+	}
+};
+
 projectForm.addEventListener("submit", (event) => {
 	// Generating random projectId
-	const projectId = Math.random().toString(36).substring(2);
+	const projectId = generateRandomId();
 	event.preventDefault();
 	if (projectName.value === "") {
 		return;
@@ -201,11 +214,7 @@ const listTasks = (tasks) => {
 			});
 			// Adding functionality to the complete task button
 			completeTaskBtn.addEventListener("click", () => {
-				task.completed = !task.completed;
-				tasks[index] = JSON.stringify(task);
-				updateLocalStorage(projects, "projects");
-				listProjects(projects);
-				listTasks(project.tasks);
+				markTaskCompleted(task.id);
 			});
 			// Adding functionality to options menu
 			taskOptions.addEventListener("click", (e) => {
@@ -276,9 +285,11 @@ taskForm.onsubmit = (event) => {
 		return;
 	}
 	if (!editTask) {
+		const taskId = generateRandomId();
 		createTask(
 			project.id,
 			project.name,
+			taskId,
 			taskTitle.value,
 			taskPriority.value,
 			taskDate.value
@@ -302,6 +313,7 @@ const menuToday = document.getElementById("menu-today");
 const menuWeek = document.getElementById("menu-week");
 
 menuHome.addEventListener("click", () => {
+	project = null;
 	contentTitle.textContent = "Home";
 	// List all tasks
 	listTasks(tasks);
