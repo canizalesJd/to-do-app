@@ -134,7 +134,6 @@ const filterTasks = (projectId) => {
 		const taskProject = JSON.parse(task).projectId;
 		return taskProject === projectId;
 	});
-	console.log(filteredTasks);
 	return filteredTasks;
 };
 
