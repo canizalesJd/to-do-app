@@ -131,7 +131,7 @@ projectList.addEventListener("click", (e) => {
 // Function to filter tasks by projectId
 const filterProjectTasks = (projectId) => {
 	const filteredTasks = tasks.filter((task) => {
-		const taskProject = JSON.parse(task).projectId;
+		const taskProject = task.projectId;
 		return taskProject === projectId;
 	});
 	return filteredTasks;
@@ -141,8 +141,7 @@ const listTasks = (tasks) => {
 	const tasksContainer = document.querySelector(".tasks-container");
 	if (tasks.length > 0) {
 		tasksContainer.innerHTML = "";
-		tasks.forEach((t, index) => {
-			const task = JSON.parse(t);
+		tasks.forEach((task, index) => {
 			// Create the main container div
 			const taskCard = document.createElement("div");
 			taskCard.classList.add("task-card");
@@ -268,7 +267,7 @@ const createTask = (
 		date,
 		completed
 	);
-	tasks.push(JSON.stringify(task));
+	tasks.push(task);
 };
 
 taskForm.onsubmit = (event) => {
