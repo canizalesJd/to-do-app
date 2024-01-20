@@ -127,8 +127,10 @@ const markTaskCompleted = (taskId) => {
 	if (task) {
 		task.completed = !task.completed;
 		updateLocalStorage(tasks, "tasks");
+		const projectIdFilter = (task) => task.projectId === selectedProject.id;
+
 		selectedProject
-			? listTasks(filterProjectTasks(selectedProject.id))
+			? listTasks(listTasks(filterTasks(projectIdFilter)))
 			: listTasks(tasks);
 	}
 };
@@ -148,12 +150,9 @@ cancelProjectBtn.addEventListener("click", () => {
 	resetProjectForm();
 });
 
-// Function to filter tasks by projectId
-const filterProjectTasks = (projectId) => {
-	const filteredTasks = tasks.filter((task) => {
-		const taskProject = task.projectId;
-		return taskProject === projectId;
-	});
+// Function to filter tasks
+const filterTasks = (filterCondition) => {
+	const filteredTasks = tasks.filter(filterCondition);
 	return filteredTasks;
 };
 
@@ -177,9 +176,8 @@ const editTask = (taskId) => {
 const deleteTask = (taskId) => {
 	tasks.splice(taskId, 1);
 	updateLocalStorage(tasks, "tasks");
-	selectedProject
-		? listTasks(filterProjectTasks(selectedProject.id))
-		: listTasks(tasks);
+	const projectIdFilter = (task) => task.projectId === selectedProject.id;
+	selectedProject ? listTasks(filterTasks(projectIdFilter)) : listTasks(tasks);
 };
 
 const listTasks = (tasks) => {
@@ -269,13 +267,16 @@ const selectProject = (projectId) => {
 	addTaskBtn.classList.add("show");
 	selectedProject = findProject(projectId);
 	contentTitle.textContent = selectedProject.name;
-	listTasks(filterProjectTasks(selectedProject.id));
+	const projectIdFilter = (task) => task.projectId === projectId;
+	listTasks(filterTasks(projectIdFilter));
 };
 
 // Function to delete the project
 const deleteProject = function (projectId) {
 	// If there's tasks delete it first
-	const tasksToDelete = filterProjectTasks(projectId);
+	const projectIdFilter = (task) => task.projectId === projectId;
+	const tasksToDelete = filterTasks(projectIdFilter);
+	console.log(tasksToDelete);
 	tasksToDelete.forEach((task) => {
 		deleteTask(task.id);
 	});
@@ -333,9 +334,8 @@ taskForm.onsubmit = (event) => {
 	}
 	resetTaskModal();
 	updateLocalStorage(tasks, "tasks");
-	selectedProject
-		? listTasks(filterProjectTasks(selectedProject.id))
-		: listTasks(tasks);
+	const projectIdFilter = (task) => task.projectId === selectedProject.id;
+	selectedProject ? listTasks(filterTasks(projectIdFilter)) : listTasks(tasks);
 };
 
 // Getting current date
@@ -365,17 +365,18 @@ const selectMenuHome = () => {
 const selectMenuToday = () => {
 	addTaskBtn.classList.remove("show");
 	const today = format(date, "yyyy-MM-dd");
-	console.log(today);
 	selectedProject = null;
 	contentTitle.textContent = "Today";
-	listTasks(tasks.filter((task) => task.date === today));
+	const todayTasksFilter = (task) => task.date === today;
+	listTasks(filterTasks(todayTasksFilter));
 };
 
 const selectMenuWeek = () => {
 	addTaskBtn.classList.remove("show");
 	selectedProject = null;
 	contentTitle.textContent = "This Week";
-	listTasks(tasks.filter((task) => currentWeekDays.includes(task.date)));
+	const weekTasksFilter = (task) => currentWeekDays.includes(task.date);
+	listTasks(filterTasks(weekTasksFilter));
 };
 
 menuHome.addEventListener("click", selectMenuHome);
