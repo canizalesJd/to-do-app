@@ -44,10 +44,24 @@ const listProjects = (projects) => {
 	const projectList = document.querySelector(".projects");
 	projectList.innerHTML = "";
 	projects.forEach((project) => {
-		projectList.innerHTML += `<li data-id="${project.id}" class="project-container">
-		${project.name}
-		<img src="images/close-icon.svg" alt="Options icon" data-project="${project.id}">
-		</li>`;
+		const projectContainer = document.createElement("li");
+		projectContainer.classList.add("project-container");
+		projectContainer.addEventListener("click", () => {
+			selectProject(project.id);
+		});
+
+		const projectName = document.createElement("p");
+		projectName.textContent = project.name;
+		projectContainer.appendChild(projectName);
+
+		const closeIcon = document.createElement("img");
+		closeIcon.src = "images/close-icon.svg";
+
+		closeIcon.addEventListener("click", () => {
+			deleteProject(project.id);
+		});
+		projectContainer.appendChild(closeIcon);
+		projectList.appendChild(projectContainer);
 	});
 };
 listProjects(projects);
@@ -129,16 +143,6 @@ projectForm.addEventListener("submit", (event) => {
 
 cancelProjectBtn.addEventListener("click", () => {
 	resetProjectForm();
-});
-
-const projectList = document.querySelector(".projects");
-projectList.addEventListener("click", (e) => {
-	if (e.target.dataset.project) {
-		deleteProject(e.target.dataset.project);
-	}
-	if (e.target.dataset.id) {
-		selectProject(e.target.dataset.id);
-	}
 });
 
 // Function to filter tasks by projectId
