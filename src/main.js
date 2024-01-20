@@ -129,7 +129,7 @@ projectList.addEventListener("click", (e) => {
 });
 
 // Function to filter tasks by projectId
-const filterTasks = (projectId) => {
+const filterProjectTasks = (projectId) => {
 	const filteredTasks = tasks.filter((task) => {
 		const taskProject = JSON.parse(task).projectId;
 		return taskProject === projectId;
@@ -237,7 +237,7 @@ const listTasks = (tasks) => {
 const selectProject = (index) => {
 	project = projects[index];
 	contentTitle.textContent = project.name;
-	listTasks(filterTasks(project.id));
+	listTasks(filterProjectTasks(project.id));
 };
 
 // Function to delete the project
@@ -294,7 +294,7 @@ taskForm.onsubmit = (event) => {
 	}
 	resetTaskModal();
 	updateLocalStorage(tasks, "tasks");
-	listTasks(filterTasks(project.id));
+	listTasks(filterProjectTasks(project.id));
 };
 
 // Menu controls
