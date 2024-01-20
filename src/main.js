@@ -17,6 +17,7 @@ const projectFormContainer = document.querySelector(".new-project-container");
 let contentTitle = document.querySelector(".content-title");
 
 let projects;
+let tasks;
 let project;
 let editTask = false;
 let editTaskIndex;
@@ -28,8 +29,15 @@ const getProjects = () => {
 };
 getProjects();
 
-const updateProjects = (projects) => {
-	localStorage.setItem("projects", JSON.stringify(projects));
+const getTasks = () => {
+	localStorage.getItem("tasks")
+		? (tasks = JSON.parse(localStorage.getItem("tasks")))
+		: (tasks = []);
+};
+getTasks();
+
+const updateLocalStorage = (item, itemName) => {
+	localStorage.setItem(itemName, JSON.stringify(item));
 };
 
 const listProjects = (projects) => {
@@ -92,8 +100,7 @@ const resetProjectForm = () => {
 const createProject = (projectId, projectName) => {
 	const project = new Project(projectId, projectName.value);
 	projects.push(project);
-	console.log(projects);
-	updateProjects(projects);
+	updateLocalStorage(projects, "projects");
 	listProjects(projects);
 };
 
@@ -189,7 +196,7 @@ const listTasks = (tasks) => {
 			completeTaskBtn.addEventListener("click", () => {
 				task.completed = !task.completed;
 				tasks[index] = JSON.stringify(task);
-				updateProjects(projects);
+				updateLocalStorage(projects, "projects");
 				listProjects(projects);
 				listTasks(project.tasks);
 			});
@@ -205,7 +212,7 @@ const listTasks = (tasks) => {
 				}
 				if (e.target.dataset.option === "delete") {
 					project.tasks.splice(index, 1);
-					updateProjects(projects);
+					updateLocalStorage(projects, "projects");
 					listProjects(projects);
 					listTasks(project);
 				}
@@ -228,18 +235,32 @@ const selectProject = (index) => {
 // Function to delete the project
 const deleteProject = function (index) {
 	projects.splice(index, 1);
-	updateProjects(projects);
+	updateLocalStorage(projects, "projects");
 	listProjects(projects);
 };
 
 // Task creation form
 const taskForm = document.querySelector(".task-form");
 
-const createTask = (projectName, title, priority, date, completed = false) => {
+const createTask = (
+	projectId,
+	projectName,
+	title,
+	priority,
+	date,
+	completed = false
+) => {
 	projectName === "" ? (projectName = "No Project") : project.name;
 	date === "" ? (date = "No Due Date") : date;
-	const task = new Task(projectName, title, priority, date, completed);
-	project.tasks.push(JSON.stringify(task));
+	const task = new Task(
+		projectId,
+		projectName,
+		title,
+		priority,
+		date,
+		completed
+	);
+	tasks.push(JSON.stringify(task));
 };
 
 taskForm.onsubmit = (event) => {
@@ -250,6 +271,7 @@ taskForm.onsubmit = (event) => {
 	}
 	if (!editTask) {
 		createTask(
+			project.id,
 			project.name,
 			taskTitle.value,
 			taskPriority.value,
@@ -263,10 +285,11 @@ taskForm.onsubmit = (event) => {
 		task.date = taskDate.value;
 		project.tasks[index] = JSON.stringify(task);
 	}
-	updateProjects(projects);
+	updateLocalStorage(projects, "projects");
 	listProjects(projects);
 	resetModal();
-	listTasks(project.tasks);
+	updateLocalStorage(tasks, "tasks");
+	listTasks(tasks);
 };
 
 // Menu controls
