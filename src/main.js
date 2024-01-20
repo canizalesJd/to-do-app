@@ -26,7 +26,6 @@ const getProjects = () => {
 		? (projects = JSON.parse(localStorage.getItem("projects")))
 		: (projects = []);
 };
-
 getProjects();
 
 const updateProjects = (projects) => {
@@ -90,19 +89,22 @@ const resetProjectForm = () => {
 	projectName.value = "";
 };
 
-const createProject = (projectName) => {
-	const project = new Project(projectName.value);
+const createProject = (projectId, projectName) => {
+	const project = new Project(projectId, projectName.value);
 	projects.push(project);
+	console.log(projects);
 	updateProjects(projects);
 	listProjects(projects);
 };
 
 projectForm.addEventListener("submit", (event) => {
+	// Generating random projectId
+	const projectId = Math.random().toString(36).substring(2);
 	event.preventDefault();
 	if (projectName.value === "") {
 		return;
 	}
-	createProject(projectName);
+	createProject(projectId, projectName);
 	resetProjectForm();
 });
 
@@ -121,7 +123,6 @@ projectList.addEventListener("click", (e) => {
 });
 
 const listTasks = (tasks) => {
-	console.log(tasks);
 	const tasksContainer = document.querySelector(".tasks-container");
 	if (tasks.length > 0) {
 		tasksContainer.innerHTML = "";
