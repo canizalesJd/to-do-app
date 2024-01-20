@@ -1,5 +1,6 @@
 import Project from "./project.js";
 import Task from "./task.js";
+import { format, startOfWeek, endOfWeek } from "date-fns";
 
 const addTaskBtn = document.querySelector(".add-task-btn");
 const taskModal = document.querySelector(".task-modal");
@@ -265,6 +266,7 @@ const findProject = (projectId) => {
 };
 
 const selectProject = (projectId) => {
+	addTaskBtn.classList.add("show");
 	selectedProject = findProject(projectId);
 	contentTitle.textContent = selectedProject.name;
 	listTasks(filterProjectTasks(selectedProject.id));
@@ -336,16 +338,47 @@ taskForm.onsubmit = (event) => {
 		: listTasks(tasks);
 };
 
+// Getting current date
+const date = new Date();
+// Getting current week in miliseconds
+const weekStart = startOfWeek(date);
+const weekEnd = endOfWeek(date);
+
+const currentWeekDays = [];
+while (weekStart <= weekEnd) {
+	currentWeekDays.push(format(weekStart, "yyyy-MM-dd"));
+	weekStart.setDate(weekStart.getDate() + 1);
+}
+
 // Menu controls
 const menuHome = document.getElementById("menu-home");
 const menuToday = document.getElementById("menu-today");
 const menuWeek = document.getElementById("menu-week");
 
 const selectMenuHome = () => {
+	addTaskBtn.classList.remove("show");
 	selectedProject = null;
 	contentTitle.textContent = "Home";
 	listTasks(tasks);
 };
 
+const selectMenuToday = () => {
+	addTaskBtn.classList.remove("show");
+	const today = format(date, "yyyy-MM-dd");
+	console.log(today);
+	selectedProject = null;
+	contentTitle.textContent = "Today";
+	listTasks(tasks.filter((task) => task.date === today));
+};
+
+const selectMenuWeek = () => {
+	addTaskBtn.classList.remove("show");
+	selectedProject = null;
+	contentTitle.textContent = "This Week";
+	listTasks(tasks.filter((task) => currentWeekDays.includes(task.date)));
+};
+
 menuHome.addEventListener("click", selectMenuHome);
+menuToday.addEventListener("click", selectMenuToday);
+menuWeek.addEventListener("click", selectMenuWeek);
 selectMenuHome();
