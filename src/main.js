@@ -225,13 +225,17 @@ const listTasks = (tasks) => {
 			taskOptions.classList.add("task-options");
 			// Create the "Edit" option paragraph
 			const editOption = document.createElement("p");
-			editOption.dataset.option = "edit";
 			editOption.textContent = "Edit";
+			editOption.addEventListener("click", () => {
+				editTask(task.id);
+			});
 			taskOptions.appendChild(editOption);
 			// Create the "Delete" option paragraph
 			const deleteOption = document.createElement("p");
-			deleteOption.dataset.option = "delete";
 			deleteOption.textContent = "Delete";
+			deleteOption.addEventListener("click", () => {
+				deleteTask(task.id);
+			});
 			taskOptions.appendChild(deleteOption);
 			taskCard.appendChild(taskOptions);
 			tasksContainer.appendChild(taskCard);
@@ -242,15 +246,6 @@ const listTasks = (tasks) => {
 			// Adding functionality to the complete task button
 			completeTaskBtn.addEventListener("click", () => {
 				markTaskCompleted(task.id);
-			});
-			// Adding functionality to options menu
-			taskOptions.addEventListener("click", (e) => {
-				if (e.target.dataset.option === "edit") {
-					editTask(task.id);
-				}
-				if (e.target.dataset.option === "delete") {
-					deleteTask(task.id);
-				}
 			});
 		});
 	} else {
