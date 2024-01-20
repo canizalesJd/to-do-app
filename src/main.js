@@ -50,7 +50,6 @@ const listProjects = (projects) => {
 		</li>`;
 	});
 };
-
 listProjects(projects);
 
 addTaskBtn.addEventListener("click", () => {
@@ -59,17 +58,17 @@ addTaskBtn.addEventListener("click", () => {
 
 closeModalBtn.addEventListener("click", () => {
 	taskModal.style.display = "none";
-	resetModal();
+	resetTaskModal();
 });
 
 cancelBtn.addEventListener("click", () => {
-	resetModal();
+	resetTaskModal();
 });
 
 // Close modal when clicking outside of it
 window.addEventListener("click", (event) => {
 	if (event.target == taskModal) {
-		resetModal();
+		resetTaskModal();
 	}
 });
 
@@ -78,10 +77,10 @@ addProjectBtn.addEventListener("click", () => {
 	projectFormContainer.style.display = "flex";
 });
 
-const resetModal = () => {
+const resetTaskModal = () => {
 	// Reset modal fields
 	taskTitle.value = "";
-	taskPriority.value = "";
+	taskPriority.value = "normal";
 	taskDate.value = "";
 	// Close modal
 	taskModal.style.display = "none";
@@ -128,6 +127,16 @@ projectList.addEventListener("click", (e) => {
 		selectProject(e.target.dataset.id);
 	}
 });
+
+// Function to filter tasks by projectId
+const filterTasks = (projectId) => {
+	const filteredTasks = tasks.filter((task) => {
+		const taskProject = JSON.parse(task).projectId;
+		return taskProject === projectId;
+	});
+	console.log(filteredTasks);
+	return filteredTasks;
+};
 
 const listTasks = (tasks) => {
 	const tasksContainer = document.querySelector(".tasks-container");
@@ -229,7 +238,7 @@ const listTasks = (tasks) => {
 const selectProject = (index) => {
 	project = projects[index];
 	contentTitle.textContent = project.name;
-	listTasks(project.tasks);
+	listTasks(filterTasks(project.id));
 };
 
 // Function to delete the project
@@ -264,7 +273,6 @@ const createTask = (
 };
 
 taskForm.onsubmit = (event) => {
-	console.log(project);
 	event.preventDefault();
 	if (taskTitle.value === "") {
 		return;
@@ -285,11 +293,9 @@ taskForm.onsubmit = (event) => {
 		task.date = taskDate.value;
 		project.tasks[index] = JSON.stringify(task);
 	}
-	updateLocalStorage(projects, "projects");
-	listProjects(projects);
-	resetModal();
+	resetTaskModal();
 	updateLocalStorage(tasks, "tasks");
-	listTasks(tasks);
+	listTasks(filterTasks(project.id));
 };
 
 // Menu controls
@@ -299,9 +305,6 @@ const menuWeek = document.getElementById("menu-week");
 
 menuHome.addEventListener("click", () => {
 	contentTitle.textContent = "Home";
-	let tasks = [];
-	projects.map((project) => {
-		tasks = [...tasks, ...project.tasks];
-		listTasks(tasks);
-	});
+	// List all tasks
+	listTasks(tasks);
 });
