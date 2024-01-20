@@ -47,22 +47,23 @@ const listProjects = (projects) => {
 	projects.forEach((project) => {
 		const projectContainer = document.createElement("li");
 		projectContainer.classList.add("project-container");
-		projectContainer.addEventListener("click", () => {
-			selectProject(project.id);
-		});
-
-		const projectName = document.createElement("p");
-		projectName.textContent = project.name;
-		projectContainer.appendChild(projectName);
+		projectContainer.dataset.project = project.id;
+		projectContainer.textContent = project.name;
 
 		const closeIcon = document.createElement("img");
 		closeIcon.src = "images/close-icon.svg";
-
 		closeIcon.addEventListener("click", () => {
 			deleteProject(project.id);
 		});
+
 		projectContainer.appendChild(closeIcon);
 		projectList.appendChild(projectContainer);
+		projectList.addEventListener("click", (event) => {
+			if (event.target.dataset.project) {
+				const projectId = event.target.dataset.project;
+				selectProject(projectId);
+			}
+		});
 	});
 };
 listProjects(projects);
@@ -184,7 +185,7 @@ const listTasks = (tasks) => {
 	const tasksContainer = document.querySelector(".tasks-container");
 	if (tasks.length > 0) {
 		tasksContainer.innerHTML = "";
-		tasks.forEach((task, index) => {
+		tasks.forEach((task) => {
 			// Create the main container div
 			const taskCard = document.createElement("div");
 			taskCard.classList.add("task-card");
@@ -276,11 +277,13 @@ const deleteProject = function (projectId) {
 	// If there's tasks delete it first
 	const projectIdFilter = (task) => task.projectId === projectId;
 	const tasksToDelete = filterTasks(projectIdFilter);
-	console.log(tasksToDelete);
 	tasksToDelete.forEach((task) => {
 		deleteTask(task.id);
 	});
 	// If project is selected, show home and delete it
+	if (selectedProject.id === projectId) {
+		selectMenuHome();
+	}
 	const project = findProject(projectId);
 	projects.splice(projects.indexOf(project), 1);
 	updateLocalStorage(projects, "projects");
