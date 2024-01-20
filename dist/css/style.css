@@ -172,6 +172,7 @@ main {
 }
 
 .project-form {
+	padding: 0px 20px;
 	display: flex;
 	flex-direction: column;
 }

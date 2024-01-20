@@ -18,7 +18,7 @@ let contentTitle = document.querySelector(".content-title");
 
 let projects;
 let tasks;
-let project;
+let selectedProject;
 let taskEdit = false;
 let taskIdToEdit;
 
@@ -126,7 +126,9 @@ const markTaskCompleted = (taskId) => {
 	if (task) {
 		task.completed = !task.completed;
 		updateLocalStorage(tasks, "tasks");
-		project ? listTasks(filterProjectTasks(project.id)) : listTasks(tasks);
+		selectedProject
+			? listTasks(filterProjectTasks(selectedProject.id))
+			: listTasks(tasks);
 	}
 };
 
@@ -174,7 +176,9 @@ const editTask = (taskId) => {
 const deleteTask = (taskId) => {
 	tasks.splice(taskId, 1);
 	updateLocalStorage(tasks, "tasks");
-	project ? listTasks(filterProjectTasks(project.id)) : listTasks(tasks);
+	selectedProject
+		? listTasks(filterProjectTasks(selectedProject.id))
+		: listTasks(tasks);
 };
 
 const listTasks = (tasks) => {
@@ -261,9 +265,9 @@ const findProject = (projectId) => {
 };
 
 const selectProject = (projectId) => {
-	project = findProject(projectId);
-	contentTitle.textContent = project.name;
-	listTasks(filterProjectTasks(project.id));
+	selectedProject = findProject(projectId);
+	contentTitle.textContent = selectedProject.name;
+	listTasks(filterProjectTasks(selectedProject.id));
 };
 
 // Function to delete the project
@@ -273,7 +277,7 @@ const deleteProject = function (projectId) {
 	tasksToDelete.forEach((task) => {
 		deleteTask(task.id);
 	});
-	// Delete the project
+	// If project is selected, show home and delete it
 	const project = findProject(projectId);
 	projects.splice(projects.indexOf(project), 1);
 	updateLocalStorage(projects, "projects");
@@ -291,7 +295,7 @@ const createTask = (
 	date,
 	completed = false
 ) => {
-	projectName === "" ? (projectName = "No Project") : project.name;
+	projectName === "" ? (projectName = "No Project") : selectedProject.name;
 	date === "" ? (date = "No Due Date") : date;
 	const task = new Task(
 		projectId,
@@ -312,8 +316,8 @@ taskForm.onsubmit = (event) => {
 	if (!taskEdit) {
 		const taskId = generateRandomId();
 		createTask(
-			project.id,
-			project.name,
+			selectedProject.id,
+			selectedProject.name,
 			taskId,
 			taskTitle.value,
 			taskPriority.value,
@@ -327,7 +331,9 @@ taskForm.onsubmit = (event) => {
 	}
 	resetTaskModal();
 	updateLocalStorage(tasks, "tasks");
-	project ? listTasks(filterProjectTasks(project.id)) : listTasks(tasks);
+	selectedProject
+		? listTasks(filterProjectTasks(selectedProject.id))
+		: listTasks(tasks);
 };
 
 // Menu controls
@@ -336,7 +342,7 @@ const menuToday = document.getElementById("menu-today");
 const menuWeek = document.getElementById("menu-week");
 
 const selectMenuHome = () => {
-	project = null;
+	selectedProject = null;
 	contentTitle.textContent = "Home";
 	listTasks(tasks);
 };
