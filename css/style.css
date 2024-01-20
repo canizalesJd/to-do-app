@@ -224,6 +224,7 @@ main {
 }
 
 .add-task-btn {
+	display: none;
 	cursor: pointer;
 	border: none;
 	outline: none;
