@@ -18,6 +18,7 @@ const projectFormContainer = document.querySelector(".new-project-container");
 let contentTitle = document.querySelector(".content-title");
 
 let projects;
+let menuFilter;
 let tasks;
 let selectedProject;
 let taskEdit = false;
@@ -129,10 +130,9 @@ const markTaskCompleted = (taskId) => {
 		task.completed = !task.completed;
 		updateLocalStorage(tasks, "tasks");
 		const projectIdFilter = (task) => task.projectId === selectedProject.id;
-
 		selectedProject
 			? listTasks(listTasks(filterTasks(projectIdFilter)))
-			: listTasks(tasks);
+			: listTasks(filterTasks(menuFilter));
 	}
 };
 
@@ -362,6 +362,7 @@ const selectMenuHome = () => {
 	addTaskBtn.classList.remove("show");
 	selectedProject = null;
 	contentTitle.textContent = "Home";
+	menuFilter = (task) => true;
 	listTasks(tasks);
 };
 
@@ -371,6 +372,7 @@ const selectMenuToday = () => {
 	selectedProject = null;
 	contentTitle.textContent = "Today";
 	const todayTasksFilter = (task) => task.date === today;
+	menuFilter = todayTasksFilter;
 	listTasks(filterTasks(todayTasksFilter));
 };
 
@@ -379,6 +381,7 @@ const selectMenuWeek = () => {
 	selectedProject = null;
 	contentTitle.textContent = "This Week";
 	const weekTasksFilter = (task) => currentWeekDays.includes(task.date);
+	menuFilter = weekTasksFilter;
 	listTasks(filterTasks(weekTasksFilter));
 };
 
