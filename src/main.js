@@ -275,13 +275,14 @@ const selectProject = (projectId) => {
 // Function to delete the project
 const deleteProject = function (projectId) {
 	// If there's tasks delete it first
+
 	const projectIdFilter = (task) => task.projectId === projectId;
 	const tasksToDelete = filterTasks(projectIdFilter);
 	tasksToDelete.forEach((task) => {
 		deleteTask(task.id);
 	});
 	// If project is selected, show home and delete it
-	if (selectedProject.id === projectId) {
+	if (selectedProject && selectedProject.id === projectId) {
 		selectMenuHome();
 	}
 	const project = findProject(projectId);
