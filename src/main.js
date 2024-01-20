@@ -43,10 +43,10 @@ const updateLocalStorage = (item, itemName) => {
 const listProjects = (projects) => {
 	const projectList = document.querySelector(".projects");
 	projectList.innerHTML = "";
-	projects.forEach((project, index) => {
-		projectList.innerHTML += `<li data-id="${index}" class="project-container">
+	projects.forEach((project) => {
+		projectList.innerHTML += `<li data-id="${project.id}" class="project-container">
 		${project.name}
-		<img src="images/close-icon.svg" alt="Options icon" data-project="${index})">
+		<img src="images/close-icon.svg" alt="Options icon" data-project="${project.id}">
 		</li>`;
 	});
 };
@@ -257,15 +257,26 @@ const listTasks = (tasks) => {
 	}
 };
 
-const selectProject = (index) => {
-	project = projects[index];
+const findProject = (projectId) => {
+	return projects.find((project) => project.id === projectId);
+};
+
+const selectProject = (projectId) => {
+	project = findProject(projectId);
 	contentTitle.textContent = project.name;
 	listTasks(filterProjectTasks(project.id));
 };
 
 // Function to delete the project
-const deleteProject = function (index) {
-	projects.splice(index, 1);
+const deleteProject = function (projectId) {
+	// If there's tasks delete it first
+	const tasksToDelete = filterProjectTasks(projectId);
+	tasksToDelete.forEach((task) => {
+		deleteTask(task.id);
+	});
+	// Delete the project
+	const project = findProject(projectId);
+	projects.splice(projects.indexOf(project), 1);
 	updateLocalStorage(projects, "projects");
 	listProjects(projects);
 };
