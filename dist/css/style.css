@@ -591,3 +591,24 @@ select:focus {
 		min-height: 100vh;
 	}
 }
+
+@media screen and (max-width: 550px) {
+	.task-card {
+		display: flex;
+		flex-direction: column;
+		border: 2px solid red;
+	}
+	.task-controls {
+		position: relative;
+		display: flex;
+		flex-direction: row-reverse;
+		padding: 5px 0px;
+		justify-content: flex-start;
+	}
+	.task-controls img {
+		margin: 0px 10px;
+	}
+	.task-options {
+		right: 90px;
+	}
+}
