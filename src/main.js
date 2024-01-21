@@ -248,7 +248,9 @@ const listTasks = (tasks) => {
 				handleOptionsMenu(taskControls);
 			});
 			// Adding functionality to the complete task button
-			completeTaskBtn.addEventListener("click", () => {});
+			completeTaskBtn.addEventListener("click", () => {
+				markTaskCompleted(task.id);
+			});
 		});
 	} else {
 		tasksContainer.innerHTML = `
