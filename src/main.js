@@ -175,14 +175,11 @@ const editTask = (taskId) => {
 };
 
 const deleteTask = (taskId) => {
-	console.log(taskId);
 	const task = findTask(taskId);
 	const taskIndex = tasks.indexOf(task);
 	tasks.splice(taskIndex, 1);
 	updateLocalStorage(tasks, "tasks");
 	const projectIdFilter = (task) => task.projectId === selectedProject.id;
-	console.log(selectedProject);
-	console.log(projectIdFilter);
 	selectedProject
 		? listTasks(listTasks(filterTasks(projectIdFilter)))
 		: listTasks(filterTasks(menuFilter));
@@ -305,9 +302,7 @@ const deleteProject = function (projectId) {
 
 	const projectIdFilter = (task) => task.projectId === projectId;
 	const tasksToDelete = filterTasks(projectIdFilter);
-	console.log(tasksToDelete);
 	tasksToDelete.forEach((task) => {
-		console.log(task);
 		deleteTask(task.id);
 	});
 	// If project is selected, show home and delete it
