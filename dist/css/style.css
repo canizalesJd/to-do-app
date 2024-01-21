@@ -593,17 +593,22 @@ select:focus {
 }
 
 @media screen and (max-width: 550px) {
+	body {
+		font-size: 17px;
+	}
 	.task-card {
 		display: flex;
 		flex-direction: column;
-		border: 2px solid red;
 	}
 	.task-controls {
-		position: relative;
+		position: absolute;
 		display: flex;
 		flex-direction: row-reverse;
-		padding: 5px 0px;
+		padding: 0px;
+		bottom: 15px;
+		right: 20px;
 		justify-content: flex-start;
+		min-height: fit-content;
 	}
 	.task-controls img {
 		margin: 0px 10px;
