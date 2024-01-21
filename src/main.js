@@ -411,6 +411,14 @@ const selectMenuWeek = () => {
 	listTasks(filterTasks(menuFilter));
 };
 
+const header = document.querySelector("header");
+const handleMenu = () => {
+	header.classList.toggle("hide");
+};
+
+const menuControls = document.querySelector(".menu-controls");
+menuControls.addEventListener("click", handleMenu);
+
 menuHome.addEventListener("click", selectMenuHome);
 menuToday.addEventListener("click", selectMenuToday);
 menuWeek.addEventListener("click", selectMenuWeek);

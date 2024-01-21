@@ -64,6 +64,33 @@ main {
 	grid-template-columns: minmax(max-content, 290px) 1fr;
 }
 
+/* Top bar */
+
+.top-bar {
+	display: grid;
+	justify-content: center;
+	align-items: center;
+	padding: 10px 30px;
+	background: var(--bg-100);
+	border-bottom: 1px solid var(--bg-300);
+	grid-template-columns: 50px 1fr;
+}
+
+.menu-controls {
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
+
+.menu-icon {
+	height: 30px;
+	cursor: pointer;
+}
+
+.logo-container {
+	text-align: center;
+}
+
 /* Sidebar */
 .sidebar {
 	max-width: 70vw;
@@ -71,18 +98,18 @@ main {
 	background: var(--bg-100);
 }
 
-.logo-container {
-	padding: 20px 0px 0px 20px;
-}
-
 .header-logo {
 	user-select: none;
 	-webkit-user-drag: none;
-	max-height: 40px;
+	max-height: 35px;
+}
+
+header {
+	padding: 20px 0px;
 }
 
 .menu {
-	padding: 10px 0px;
+	padding-bottom: 10px;
 	border-bottom: 1px solid #d1d1d1;
 }
 
@@ -204,7 +231,7 @@ main {
 
 .content {
 	display: flex;
-	max-width: 600px;
+	max-width: 700px;
 	width: 90%;
 	padding: 30px 0px;
 	margin: auto;
@@ -536,6 +563,9 @@ select:focus {
 
 /* Responsive */
 @media screen and (max-width: 900px) {
+	.menu-controls {
+		display: flex;
+	}
 	main {
 		grid-template-columns: 1fr;
 	}
