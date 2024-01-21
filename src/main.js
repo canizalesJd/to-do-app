@@ -175,10 +175,14 @@ const editTask = (taskId) => {
 };
 
 const deleteTask = (taskId) => {
-	tasks.splice(taskId, 1);
+	const task = findTask(taskId);
+	const taskIndex = tasks.indexOf(task);
+	tasks.splice(taskIndex, 1);
 	updateLocalStorage(tasks, "tasks");
 	const projectIdFilter = (task) => task.projectId === selectedProject.id;
-	selectedProject ? listTasks(filterTasks(projectIdFilter)) : listTasks(tasks);
+	selectedProject
+		? listTasks(listTasks(filterTasks(projectIdFilter)))
+		: listTasks(filterTasks(menuFilter));
 };
 
 const listTasks = (tasks) => {
@@ -386,7 +390,7 @@ const selectMenuToday = () => {
 	contentTitle.textContent = "Today";
 	const todayTasksFilter = (task) => task.date === today;
 	menuFilter = todayTasksFilter;
-	listTasks(filterTasks(todayTasksFilter));
+	listTasks(filterTasks(menuFilter));
 };
 
 const selectMenuWeek = () => {
@@ -395,7 +399,7 @@ const selectMenuWeek = () => {
 	contentTitle.textContent = "This Week";
 	const weekTasksFilter = (task) => currentWeekDays.includes(task.date);
 	menuFilter = weekTasksFilter;
-	listTasks(filterTasks(weekTasksFilter));
+	listTasks(filterTasks(menuFilter));
 };
 
 menuHome.addEventListener("click", selectMenuHome);
