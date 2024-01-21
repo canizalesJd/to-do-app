@@ -581,6 +581,13 @@ select:focus {
 	.sidebar {
 		min-width: 100vw;
 		display: flex;
+		height: fit-content;
 		flex-direction: column;
+		min-height: none !important;
+	}
+	.content {
+		position: relative;
+		justify-content: flex-start !important;
+		min-height: 100vh;
 	}
 }
