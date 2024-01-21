@@ -241,16 +241,14 @@ const listTasks = (tasks) => {
 				deleteTask(task.id);
 			});
 			taskOptions.appendChild(deleteOption);
-			taskCard.appendChild(taskOptions);
+			taskControls.appendChild(taskOptions);
 			tasksContainer.appendChild(taskCard);
 			// Adding functionality to the options button
 			taskOptionsBtn.addEventListener("click", () => {
-				taskOptions.classList.toggle("show");
+				handleOptionsMenu(taskControls);
 			});
 			// Adding functionality to the complete task button
-			completeTaskBtn.addEventListener("click", () => {
-				markTaskCompleted(task.id);
-			});
+			completeTaskBtn.addEventListener("click", () => {});
 		});
 	} else {
 		tasksContainer.innerHTML = `
@@ -258,6 +256,18 @@ const listTasks = (tasks) => {
 			<p>No tasks to be displayed...</p>
 		</div>`;
 	}
+};
+
+const handleOptionsMenu = (tasksControls) => {
+	const taskOptions = tasksControls.querySelector(".task-options");
+	const taskOptionsBtn = tasksControls.querySelector(".task-options-btn");
+	taskOptions.classList.toggle("show");
+	// Close the options menu when clicking outside of it
+	window.addEventListener("click", (event) => {
+		if (event.target !== taskOptionsBtn) {
+			taskOptions.classList.remove("show");
+		}
+	});
 };
 
 const findProject = (projectId) => {

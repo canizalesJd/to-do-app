@@ -529,3 +529,7 @@ select:focus {
 	margin: 0px 10px;
 	border-radius: 50%;
 }
+
+.task-options-btn {
+	min-height: 30px;
+}
