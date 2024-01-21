@@ -73,10 +73,11 @@ main {
 	padding: 10px 30px;
 	background: var(--bg-100);
 	border-bottom: 1px solid var(--bg-300);
-	grid-template-columns: 50px 1fr;
 }
 
 .menu-controls {
+	height: 100%;
+	cursor: pointer;
 	display: none;
 	justify-content: center;
 	align-items: center;
@@ -88,7 +89,8 @@ main {
 }
 
 .logo-container {
-	text-align: center;
+	display: flex;
+	justify-content: center;
 }
 
 /* Sidebar */
@@ -513,7 +515,7 @@ select:focus {
 }
 
 .hide {
-	display: none;
+	display: none !important;
 }
 
 .show {
@@ -566,8 +568,15 @@ select:focus {
 	.menu-controls {
 		display: flex;
 	}
+	.logo-container {
+		padding-left: -50px;
+		cursor: pointer;
+	}
 	main {
 		grid-template-columns: 1fr;
+	}
+	.top-bar {
+		grid-template-columns: 50px 1fr;
 	}
 	.sidebar {
 		min-width: 100vw;

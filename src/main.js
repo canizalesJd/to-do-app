@@ -411,10 +411,19 @@ const selectMenuWeek = () => {
 	listTasks(filterTasks(menuFilter));
 };
 
-const header = document.querySelector("header");
+const sidebar = document.querySelector(".sidebar");
 const handleMenu = () => {
-	header.classList.toggle("hide");
+	sidebar.classList.toggle("hide");
 };
+
+// Execute function on window resize
+const handleWindowResize = () => {
+	if (window.innerWidth > 900) {
+		header.classList.remove("hide");
+	}
+};
+// If window with is > 900px
+window.addEventListener("resize", handleWindowResize);
 
 const menuControls = document.querySelector(".menu-controls");
 menuControls.addEventListener("click", handleMenu);
