@@ -419,7 +419,7 @@ const handleMenu = () => {
 // Execute function on window resize
 const handleWindowResize = () => {
 	if (window.innerWidth > 900) {
-		header.classList.remove("hide");
+		sidebar.classList.remove("hide");
 	}
 };
 // If window with is > 900px
