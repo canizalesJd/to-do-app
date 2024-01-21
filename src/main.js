@@ -175,92 +175,103 @@ const editTask = (taskId) => {
 };
 
 const deleteTask = (taskId) => {
+	console.log(taskId);
 	const task = findTask(taskId);
 	const taskIndex = tasks.indexOf(task);
 	tasks.splice(taskIndex, 1);
 	updateLocalStorage(tasks, "tasks");
 	const projectIdFilter = (task) => task.projectId === selectedProject.id;
+	console.log(selectedProject);
+	console.log(projectIdFilter);
 	selectedProject
 		? listTasks(listTasks(filterTasks(projectIdFilter)))
 		: listTasks(filterTasks(menuFilter));
 };
 
+const renderTask = (task) => {
+	const tasksContainer = document.querySelector(".tasks-container");
+	// Create the main container div
+	const taskCard = document.createElement("div");
+	taskCard.classList.add("task-card");
+	// Create the task title paragraph
+	const titleParagraph = document.createElement("p");
+	titleParagraph.classList.add("task-title");
+	titleParagraph.innerHTML = `${task.title} <span class="priority ${task.priority}"></span>`;
+	taskCard.appendChild(titleParagraph);
+	const projectParagraph = document.createElement("p");
+	projectParagraph.classList.add("task-project");
+	projectParagraph.textContent = task.projectName;
+	taskCard.appendChild(projectParagraph);
+	// Create the task date paragraph
+	const dateParagraph = document.createElement("p");
+	dateParagraph.classList.add("task-date");
+	dateParagraph.innerHTML = `Due: ${task.date || "No Due Date"}`;
+	taskCard.appendChild(dateParagraph);
+	// Create the task controls div
+	const taskControls = document.createElement("div");
+	taskControls.classList.add("task-controls");
+	// Create the complete task button
+	const completeTaskBtn = document.createElement("img");
+	completeTaskBtn.src = task.completed
+		? "images/completed-icon.svg"
+		: "images/complete-icon.svg";
+	completeTaskBtn.alt = "Complete icon";
+	taskCard.classList.add(task.completed ? "completed" : null);
+
+	completeTaskBtn.classList.add("complete-task-btn");
+	taskControls.appendChild(completeTaskBtn);
+	// Create the task options button
+	const taskOptionsBtn = document.createElement("img");
+	taskOptionsBtn.src = "images/dots-icon.svg";
+	taskOptionsBtn.alt = "Options icon";
+
+	taskOptionsBtn.classList.add("task-options-btn");
+	taskControls.appendChild(taskOptionsBtn);
+	taskCard.appendChild(taskControls);
+	// Create the task options div
+	const taskOptions = document.createElement("div");
+	taskOptions.classList.add("task-options");
+	// Create the "Edit" option paragraph
+	const editOption = document.createElement("p");
+	editOption.textContent = "Edit";
+	editOption.addEventListener("click", () => {
+		editTask(task.id);
+	});
+	taskOptions.appendChild(editOption);
+	// Create the "Delete" option paragraph
+	const deleteOption = document.createElement("p");
+	deleteOption.textContent = "Delete";
+	deleteOption.addEventListener("click", () => {
+		deleteTask(task.id);
+	});
+	taskOptions.appendChild(deleteOption);
+	taskControls.appendChild(taskOptions);
+	tasksContainer.appendChild(taskCard);
+	// Adding functionality to the options button
+	taskOptionsBtn.addEventListener("click", () => {
+		handleOptionsMenu(taskControls);
+	});
+	// Adding functionality to the complete task button
+	completeTaskBtn.addEventListener("click", () => {
+		markTaskCompleted(task.id);
+	});
+};
+
 const listTasks = (tasks) => {
 	const tasksContainer = document.querySelector(".tasks-container");
-	if (tasks.length > 0) {
+	if (tasks && tasks.length > 0) {
 		tasksContainer.innerHTML = "";
 		tasks.forEach((task) => {
-			// Create the main container div
-			const taskCard = document.createElement("div");
-			taskCard.classList.add("task-card");
-			// Create the task title paragraph
-			const titleParagraph = document.createElement("p");
-			titleParagraph.classList.add("task-title");
-			titleParagraph.innerHTML = `${task.title} <span class="priority ${task.priority}"></span>`;
-			taskCard.appendChild(titleParagraph);
-			const projectParagraph = document.createElement("p");
-			projectParagraph.classList.add("task-project");
-			projectParagraph.textContent = task.projectName;
-			taskCard.appendChild(projectParagraph);
-			// Create the task date paragraph
-			const dateParagraph = document.createElement("p");
-			dateParagraph.classList.add("task-date");
-			dateParagraph.innerHTML = `Due: ${task.date || "No Due Date"}`;
-			taskCard.appendChild(dateParagraph);
-			// Create the task controls div
-			const taskControls = document.createElement("div");
-			taskControls.classList.add("task-controls");
-			// Create the complete task button
-			const completeTaskBtn = document.createElement("img");
-			completeTaskBtn.src = task.completed
-				? "images/completed-icon.svg"
-				: "images/complete-icon.svg";
-			completeTaskBtn.alt = "Complete icon";
-			taskCard.classList.add(task.completed ? "completed" : null);
-
-			completeTaskBtn.classList.add("complete-task-btn");
-			taskControls.appendChild(completeTaskBtn);
-			// Create the task options button
-			const taskOptionsBtn = document.createElement("img");
-			taskOptionsBtn.src = "images/dots-icon.svg";
-			taskOptionsBtn.alt = "Options icon";
-
-			taskOptionsBtn.classList.add("task-options-btn");
-			taskControls.appendChild(taskOptionsBtn);
-			taskCard.appendChild(taskControls);
-			// Create the task options div
-			const taskOptions = document.createElement("div");
-			taskOptions.classList.add("task-options");
-			// Create the "Edit" option paragraph
-			const editOption = document.createElement("p");
-			editOption.textContent = "Edit";
-			editOption.addEventListener("click", () => {
-				editTask(task.id);
-			});
-			taskOptions.appendChild(editOption);
-			// Create the "Delete" option paragraph
-			const deleteOption = document.createElement("p");
-			deleteOption.textContent = "Delete";
-			deleteOption.addEventListener("click", () => {
-				deleteTask(task.id);
-			});
-			taskOptions.appendChild(deleteOption);
-			taskControls.appendChild(taskOptions);
-			tasksContainer.appendChild(taskCard);
-			// Adding functionality to the options button
-			taskOptionsBtn.addEventListener("click", () => {
-				handleOptionsMenu(taskControls);
-			});
-			// Adding functionality to the complete task button
-			completeTaskBtn.addEventListener("click", () => {
-				markTaskCompleted(task.id);
-			});
+			renderTask(task);
 		});
-	} else {
+		return;
+	}
+	if (tasks && tasks.length === 0) {
 		tasksContainer.innerHTML = `
 		<div class="task-card text-center">
 			<p>No tasks to be displayed...</p>
 		</div>`;
+		return;
 	}
 };
 
@@ -294,7 +305,9 @@ const deleteProject = function (projectId) {
 
 	const projectIdFilter = (task) => task.projectId === projectId;
 	const tasksToDelete = filterTasks(projectIdFilter);
+	console.log(tasksToDelete);
 	tasksToDelete.forEach((task) => {
+		console.log(task);
 		deleteTask(task.id);
 	});
 	// If project is selected, show home and delete it
@@ -302,7 +315,8 @@ const deleteProject = function (projectId) {
 		selectMenuHome();
 	}
 	const project = findProject(projectId);
-	projects.splice(projects.indexOf(project), 1);
+	const projectIndex = projects.indexOf(project);
+	projects.splice(projectIndex, 1);
 	updateLocalStorage(projects, "projects");
 	listProjects(projects);
 };
