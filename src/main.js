@@ -276,10 +276,15 @@ const handleOptionsMenu = (tasksControls) => {
 	const taskOptions = tasksControls.querySelector(".task-options");
 	const taskOptionsBtn = tasksControls.querySelector(".task-options-btn");
 	taskOptions.classList.toggle("show");
+	// Change btn if active
+	taskOptionsBtn.src = taskOptions.classList.contains("show")
+		? "images/close-icon.svg"
+		: "images/dots-icon.svg";
 	// Close the options menu when clicking outside of it
 	window.addEventListener("click", (event) => {
 		if (event.target !== taskOptionsBtn) {
 			taskOptions.classList.remove("show");
+			taskOptionsBtn.src = "images/dots-icon.svg";
 		}
 	});
 };
