@@ -596,10 +596,7 @@ select:focus {
 	body {
 		font-size: 17px;
 	}
-	.task-card {
-		display: flex;
-		flex-direction: column;
-	}
+
 	.task-controls {
 		position: absolute;
 		display: flex;
@@ -615,5 +612,42 @@ select:focus {
 	}
 	.task-options {
 		right: 90px;
+	}
+}
+
+@media screen and (max-width: 490px) {
+	.task-card {
+		max-width: 95vw;
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: column;
+	}
+	.task-title {
+		display: flex;
+		flex-wrap: wrap-reverse;
+		word-break: break-all;
+		padding: 5px;
+		max-width: 100%;
+		font-size: 1.1em;
+	}
+}
+
+@media screen and (max-width: 420px) {
+	.content-title-container {
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	.add-task-btn {
+		margin-top: 10px;
+	}
+}
+
+@media screen and (max-width: 325px) {
+	.task-controls {
+		position: relative;
+		min-width: 100%;
+		bottom: 0;
+		right: 0;
 	}
 }
