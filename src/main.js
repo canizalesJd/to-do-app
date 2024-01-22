@@ -71,10 +71,16 @@ listProjects(projects);
 
 addTaskBtn.addEventListener("click", () => {
 	taskModal.style.display = "flex";
+	// When the modal is shown, we want a fixed body
+	document.body.style.position = "fixed";
+	document.body.style.top = `-${window.scrollY}px`;
 });
 
 closeModalBtn.addEventListener("click", () => {
 	taskModal.style.display = "none";
+	// When the modal is hidden, we want to remain at the top of the scroll position
+	document.body.style.position = "";
+	document.body.style.top = "";
 	resetTaskModal();
 });
 
@@ -101,6 +107,9 @@ const resetTaskModal = () => {
 	taskDate.value = "";
 	// Close modal
 	taskModal.style.display = "none";
+	// When the modal is hidden, we want to remain at the top of the scroll position
+	document.body.style.position = "";
+	document.body.style.top = "";
 	taskEdit = false;
 };
 
@@ -169,6 +178,9 @@ const editTask = (taskId) => {
 		taskPriority.value = task.priority;
 		taskDate.value = task.date;
 		taskModal.style.display = "flex";
+		// When the modal is shown, we want a fixed body
+		document.body.style.position = "fixed";
+		document.body.style.top = `-${window.scrollY}px`;
 		taskEdit = true;
 		taskIdToEdit = task.id;
 	}
