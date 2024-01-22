@@ -417,8 +417,14 @@ const selectMenuWeek = () => {
 };
 
 const sidebar = document.querySelector(".sidebar");
+window.innerWidth <= 900 ? sidebar.classList.add("hide") : null;
 const handleMenu = () => {
 	sidebar.classList.toggle("hide");
+	const menuIcon = document.querySelector(".menu-icon");
+	// Change icon depending on state
+	menuIcon.src = sidebar.classList.contains("hide")
+		? "images/menu-icon.svg"
+		: "images/close-icon.svg";
 };
 
 // Execute function on window resize

@@ -569,8 +569,7 @@ select:focus {
 		display: flex;
 	}
 	.logo-container {
-		padding-left: -50px;
-		cursor: pointer;
+		margin-right: 50px;
 	}
 	main {
 		grid-template-columns: 1fr;
@@ -649,5 +648,10 @@ select:focus {
 		min-width: 100%;
 		bottom: 0;
 		right: 0;
+		padding: 10px;
+		justify-content: center;
+	}
+	.task-options {
+		right: 5px;
 	}
 }
